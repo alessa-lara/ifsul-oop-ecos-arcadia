@@ -24,13 +24,11 @@ class CombatMission(Mission):
 
     @tipo_inimigo.setter
     def tipo_inimigo(self, value: str):
-        # TODO: criar metodo
-        pass
+        self.__tipo_inimigo = value
 
     @inimigos_a_derrotar.setter
     def inimigos_a_derrotar(self, value: int):
-        # TODO: criar metodo
-        pass
+        self.__inimigos_a_derrotar = value
 
 
 class GatheringMission(Mission):
@@ -56,13 +54,11 @@ class GatheringMission(Mission):
 
     @item_necessario.setter
     def item_necessario(self, value: str):
-        # TODO: criar metodo
-        pass
+        self.__item_necessario = value
 
     @quantidade_item.setter
     def quantidade_item(self, value: int):
-        # TODO: criar metodo
-        pass
+        self.__quantidade_item = value
 
 
 class ExplorationMission(Mission):
@@ -88,10 +84,8 @@ class ExplorationMission(Mission):
 
     @regiao_destino.setter
     def regiao_destino(self, value: str):
-        # TODO: criar metodo
-        pass
+        self.__regiao_destino = value
 
     @distancia_km.setter
     def distancia_km(self, value: float):
-        # TODO: criar metodo
-        pass
+        self.__distancia_km = value

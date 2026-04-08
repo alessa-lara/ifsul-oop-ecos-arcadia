@@ -56,18 +56,18 @@ class Mission:
         self._recompensa = value
 
     @status.setter
-    def status(self, value: Status):
-        if value is None:
+    def status(self, status: Status):
+        if status is None:
             raise ValueError("Can't set None type for this attribute")
 
-        if not isinstance(value, Status):
+        if not isinstance(status, Status):
             raise ValueError("Valor informado não é do tipo Status")
 
         next = self._status.value + 1
-        if next != value:
+        if next != status.value:
             raise ValueError("Valor informado para status não segue o fluxo adequado")
 
-        self._status = value
+        self._status = status
 
     def __str__(self) -> str:
         parts = []
@@ -113,7 +113,7 @@ class Mission:
         elif self.status == Status.concluido:
             raise ValueError("Missão já concluída")
 
-        self.status = Status.em_andamento
+        self.status = Status.concluido
 
         print(
             f"Missão concluída como sucesso. A contabilidade do prêmio de {self.recompensa} XP agora está pronta para retirada financeira."
