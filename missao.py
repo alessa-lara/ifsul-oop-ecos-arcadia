@@ -8,11 +8,15 @@ class Status(Enum):
 
 
 class Mission:
-    def __init__(self, nome: str, descric: str, recomp: int) -> None:
-        self._nome: str = nome
-        self._descricao: str = descric
-        self._recompensa: int = recomp
+    def __init__(self, nome: str, descricao: str, recompensa: int) -> None:
+        self._nome: str = ""
+        self._descricao: str = ""
+        self._recompensa: int = 0
         self._status: Status = Status.pendente
+
+        self.nome = nome
+        self.descricao = descricao
+        self.recompensa = recompensa
 
     @property
     def nome(self) -> str:
@@ -107,14 +111,5 @@ class Mission:
             f"A missão {self.nome} começou! Objetivo central da missao: {self.descricao}"
         )
 
-    def concluir_missao(self):
-        if self.status == Status.pendente:
-            raise ValueError("Missão ainda pendente")
-        elif self.status == Status.concluido:
-            raise ValueError("Missão já concluída")
-
-        self.status = Status.concluido
-
-        print(
-            f"Missão concluída como sucesso. A contabilidade do prêmio de {self.recompensa} XP agora está pronta para retirada financeira."
-        )
+    def concluir_missao(self, req):
+        pass
