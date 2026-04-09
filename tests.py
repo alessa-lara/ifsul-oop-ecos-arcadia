@@ -28,12 +28,12 @@ class Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             miss.iniciar_missao()
 
-        miss.concluir_missao()
+        miss.concluir_missao(10)
         self.assertEqual(miss.status, Status.concluido)
         with self.assertRaises(ValueError):
             miss.iniciar_missao()
         with self.assertRaises(ValueError):
-            miss.concluir_missao()
+            miss.concluir_missao(10)
 
         miss.show()
 
@@ -61,12 +61,12 @@ class Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             miss.iniciar_missao()
 
-        miss.concluir_missao()
+        miss.concluir_missao(4)
         self.assertEqual(miss.status, Status.concluido)
         with self.assertRaises(ValueError):
             miss.iniciar_missao()
         with self.assertRaises(ValueError):
-            miss.concluir_missao()
+            miss.concluir_missao(4)
 
         miss.show()
 
@@ -94,12 +94,12 @@ class Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             miss.iniciar_missao()
 
-        miss.concluir_missao()
+        miss.concluir_missao(30)
         self.assertEqual(miss.status, Status.concluido)
         with self.assertRaises(ValueError):
             miss.iniciar_missao()
         with self.assertRaises(ValueError):
-            miss.concluir_missao()
+            miss.concluir_missao(30)
 
         miss.show()
 

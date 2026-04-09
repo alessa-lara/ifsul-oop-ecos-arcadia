@@ -1,4 +1,5 @@
-from missao import Mission
+from typing import override
+from missao import Mission, Status
 
 
 class CombatMission(Mission):
@@ -11,8 +12,14 @@ class CombatMission(Mission):
         inimigos_a_derrotar: int,
     ) -> None:
         super().__init__(nome, descric, recomp)
-        self.__tipo_inimigo: str = tipo_inimigo
-        self.__inimigos_a_derrotar: int = inimigos_a_derrotar
+
+        # var privadas
+        self.__tipo_inimigo: str = ""
+        self.__inimigos_a_derrotar: int = 0
+
+        # init var com setter
+        self.tipo_inimigo = tipo_inimigo
+        self.inimigos_a_derrotar = inimigos_a_derrotar
 
     @property
     def tipo_inimigo(self) -> str:
@@ -30,6 +37,24 @@ class CombatMission(Mission):
     def inimigos_a_derrotar(self, value: int):
         self.__inimigos_a_derrotar = value
 
+    @override
+    def concluir_missao(self, req: float):
+        if self.status == Status.pendente:
+            raise ValueError("Missão ainda pendente")
+        elif self.status == Status.concluido:
+            raise ValueError("Missão já concluída")
+
+        if self.inimigos_a_derrotar > req:
+            raise ValueError(
+                f"Falta ainda {self.inimigos_a_derrotar - req} para percorrer."
+            )
+
+        self.status: Status = Status.concluido
+
+        print(
+            f"Missão concluída como sucesso. A contabilidade do prêmio de {self.recompensa} XP agora está pronta para retirada financeira."
+        )
+
 
 class GatheringMission(Mission):
     def __init__(
@@ -41,8 +66,14 @@ class GatheringMission(Mission):
         quantidade_item: int,
     ) -> None:
         super().__init__(nome, descric, recomp)
-        self.__item_necessario = item_necessario
-        self.__quantidade_item = quantidade_item
+
+        # var privadas
+        self.__item_necessario: str = ""
+        self.__quantidade_item: int = 0
+
+        # init var com setter
+        self.item_necessario = item_necessario
+        self.quantidade_item = quantidade_item
 
     @property
     def item_necessario(self) -> str:
@@ -60,6 +91,24 @@ class GatheringMission(Mission):
     def quantidade_item(self, value: int):
         self.__quantidade_item = value
 
+    @override
+    def concluir_missao(self, req: float):
+        if self.status == Status.pendente:
+            raise ValueError("Missão ainda pendente")
+        elif self.status == Status.concluido:
+            raise ValueError("Missão já concluída")
+
+        if self.quantidade_item > req:
+            raise ValueError(
+                f"Falta ainda {self.quantidade_item - req} para percorrer."
+            )
+
+        self.status: Status = Status.concluido
+
+        print(
+            f"Missão concluída como sucesso. A contabilidade do prêmio de {self.recompensa} XP agora está pronta para retirada financeira."
+        )
+
 
 class ExplorationMission(Mission):
     def __init__(
@@ -71,8 +120,14 @@ class ExplorationMission(Mission):
         distancia_km: float,
     ) -> None:
         super().__init__(nome, descric, recomp)
-        self.__regiao_destino = regiao_destino
-        self.__distancia_km = distancia_km
+
+        # var privadas
+        self.__regiao_destino: str = ""
+        self.__distancia_km: float = 0
+
+        # init var com setter
+        self.regiao_destino = regiao_destino
+        self.distancia_km = distancia_km
 
     @property
     def regiao_destino(self) -> str:
@@ -89,3 +144,19 @@ class ExplorationMission(Mission):
     @distancia_km.setter
     def distancia_km(self, value: float):
         self.__distancia_km = value
+
+    @override
+    def concluir_missao(self, req: float):
+        if self.status == Status.pendente:
+            raise ValueError("Missão ainda pendente")
+        elif self.status == Status.concluido:
+            raise ValueError("Missão já concluída")
+
+        if self.distancia_km > req:
+            raise ValueError(f"Falta ainda {self.distancia_km - req} para percorrer.")
+
+        self.status: Status = Status.concluido
+
+        print(
+            f"Missão concluída como sucesso. A contabilidade do prêmio de {self.recompensa} XP agora está pronta para retirada financeira."
+        )
