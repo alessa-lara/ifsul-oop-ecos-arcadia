@@ -1,10 +1,13 @@
 import unittest
 from missao import Status
 from missao_heranca import GatheringMission, CombatMission, ExplorationMission
+from personagem import Character
 
 
 class Tests(unittest.TestCase):
     def test_gathering(self):
+        print("TEST_GATHERING")
+
         miss = GatheringMission("Fortuna de cogumelos", "", 10, "Cogumelos Azuis", 5)
         self.assertEqual(miss.nome, "Fortuna de cogumelos")
         self.assertEqual(miss.descricao, "")
@@ -37,7 +40,11 @@ class Tests(unittest.TestCase):
 
         miss.show()
 
+        print("\n \n")
+
     def test_combat(self):
+        print("TEST_COMBAT")
+
         miss = CombatMission("Esqueleto gordo", "", 10, "Esqueleto Chefe", 2)
         self.assertEqual(miss.nome, "Esqueleto gordo")
         self.assertEqual(miss.descricao, "")
@@ -70,7 +77,11 @@ class Tests(unittest.TestCase):
 
         miss.show()
 
+        print("\n \n")
+
     def test_exploration(self):
+        print("\n \n TEST_EXPLORATION")
+
         miss = ExplorationMission("Ninguém pode te ouvir", "", 10, "Espaço", 700)
         self.assertEqual(miss.nome, "Ninguém pode te ouvir")
         self.assertEqual(miss.descricao, "")
@@ -102,6 +113,46 @@ class Tests(unittest.TestCase):
             miss.concluir_missao(30)
 
         miss.show()
+
+        print("\n \n")
+
+    def test_character_mission(self):
+        print("TEST_CHARACTER_MISSION")
+
+        explore = ExplorationMission("Ninguém pode te ouvir", "", 10, "Espaço", 700)
+
+        combat = CombatMission("Esqueleto gordo ta bombado", "", 10, "Esqueleto Chefe", 2)
+
+        gather = GatheringMission("Fortuna de cogumelos", "", 10, "Cogumelos Azuis", 5)
+
+        charac = Character("Josefino Olambino")
+
+        charac.add_mission(explore)
+        charac.add_mission(combat)
+        charac.add_mission(gather)
+
+        self.assertEqual(charac.missoes, [explore, combat, gather])
+
+        charac.finish_mission(explore, 700)
+        self.assertEqual(charac.xp, 10)
+        self.assertEqual(explore.status, Status.concluido)
+
+        with self.assertRaises(ValueError):
+            charac.finish_mission(combat, 1)
+
+        outside = ExplorationMission("Missao nao vai estar no personagem", "", 10, "local", 1)
+        with self.assertRaises(ValueError):
+            charac.finish_mission(outside, 1)
+
+        charac.finish_mission(combat, 2)
+        self.assertEqual(charac.xp, 20)
+        self.assertEqual(combat.status, Status.concluido)
+
+        charac.finish_mission(gather, 5)
+        self.assertEqual(charac.xp, 30)
+        self.assertEqual(gather.status, Status.concluido)
+
+        print("\n \n")
 
 
 if __name__ == "__main__":
