@@ -1,13 +1,14 @@
 from enum import Enum
+from abc import ABC, abstractmethod
 
 
 class Status(Enum):
     pendente = 1
     em_andamento = 2
-    concluido = 3
+    concluido = 3                 
 
 
-class Mission:
+class Mission(ABC):
     def __init__(self, nome: str, descricao: str, recompensa: int) -> None:
         self._nome: str = ""
         self._descricao: str = ""
@@ -99,17 +100,10 @@ class Mission:
         for attr, val in vars(self).items():
             print(f"{attr}: {val}")
 
+    @abstractmethod
     def iniciar_missao(self):
-        if self.status == Status.em_andamento:
-            raise ValueError("Missão já em andamento")
-        elif self.status == Status.concluido:
-            raise ValueError("Missão já concluída")
+        pass
 
-        self.status = Status.em_andamento
-
-        print(
-            f"A missão {self.nome} começou! Objetivo central da missao: {self.descricao}"
-        )
-
+    @abstractmethod
     def concluir_missao(self, req):
         pass
