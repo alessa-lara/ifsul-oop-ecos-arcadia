@@ -1,11 +1,21 @@
+from enum import Enum
 from missao import Mission
+
+class Status(Enum):
+    vivo = 1
+    desacordado = 2
+    morto = 3
 
 class Character:
     def __init__(self, nome: str) -> None:
         self._nome: str = ""
+
         self._nivel: int = 1
         self._xp: int = 0
-        self._vida: int = 100
+
+        self._vida_maxima = 100
+        self._vida: int = self._vida_maxima
+
         self._missoes: list[Mission] = []
 
         self.nome = nome
@@ -60,19 +70,35 @@ class Character:
         for attr, val in vars(self).items():
             print(f"{attr}: {val}")
 
+    def _modificar_vida(self, cura_dano: int):
+        if cura_dano + self._vida > 100:
+            self._vida = self._vida_maxima
+        else:
+            self._vida += cura_dano
+
+        if self._vida > 0:
+            self._status = Status.vivo
+        elif self._vida <= 0:
+            self._status = Status.desacordado
+        elif self._vida < -10:
+            self._status = Status.morto
+
     def add_mission(self, mission: Mission):
         mission.iniciar_missao()
         self.missoes = mission
 
     def finish_mission(self, mission: Mission, val: int):
-        print(f"tentando terminar a missao: {mission}")
         if mission not in self.missoes:
             raise ValueError("Missao não foi adicionada ao personagem")
 
-        try: 
+        try:
             mission.concluir_missao(val)
         except ValueError :
              raise # reraise the error 
 
         self._xp += mission.recompensa
         print(f"recompensa obtida com sucesso. Experência do personagem agora é {self.xp}")
+
+    def show_missions(self):
+        for m in self.missoes:
+            print(f"{m.nome}, {m.status}")
